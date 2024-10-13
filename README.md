@@ -61,3 +61,11 @@ Output:
 0 1 1
 1 0 1
 1 1 0
+
+## Error Handling
+
+The program rejects malformed files with appropriate error messages for:
+
+Undeclared variables
+Invalid syntax
+More than 64 variables declared
