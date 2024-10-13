@@ -1,8 +1,9 @@
+Certainly! Here's the full, corrected README.md content that you can directly copy and paste:
+
+```markdown
 # truth-table-solver
+
 Truth table generator for Boolean formulas, built in Python and C. Handles 'and', 'or', 'not' operations for up to 64 variables. Shows full tables or just 'True' rows. Great for logic analysis and Boolean algebra. Fast and easy to use.
-
-
-# Boolean Truth Table Generator
 
 ## Overview
 
@@ -20,9 +21,11 @@ This project generates truth tables for Boolean formulas. It parses Boolean expr
 
 Example input file:
 
+```
 var x y;
 z = (x or y) and (not (x and y));
 show z;
+```
 
 ### Supported Syntax
 
@@ -31,6 +34,7 @@ show z;
 3. Show Truth Table: `show z;` or `show ones z;`
 
 ### Boolean Operators
+
 - `and`: Logical AND
 - `or`: Logical OR
 - `not`: Logical NOT
@@ -39,33 +43,44 @@ show z;
 ## Usage
 
 ### Python
+
 ```bash
 python3 table.py input.txt
+```
 
 ### C
 
-
+```bash
 clang -Wall -O3 -o table *.c
 ./table input.txt
+```
 
+## Example
 
-### Example:
+Input file `xor.txt`:
 
-Input file xor.txt:
+```
 var x y;
 z = (x or y) and (not (x and y));
 show z;
+```
+
 Output:
+
+```
 # x y z
 0 0 0
 0 1 1
 1 0 1
 1 1 0
+```
 
 ## Error Handling
 
 The program rejects malformed files with appropriate error messages for:
+- Undeclared variables
+- Invalid syntax
+- More than 64 variables declared
+```
 
-Undeclared variables
-Invalid syntax
-More than 64 variables declared
+This README.md file is now properly formatted and ready to be used in your GitHub repository. It provides a clear overview of your project, its features, usage instructions, and example output. The formatting is consistent and follows markdown best practices for readability on GitHub.
