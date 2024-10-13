@@ -80,5 +80,3 @@ The program rejects malformed files with appropriate error messages for:
 - Invalid syntax
 - More than 64 variables declared
 ```
-
-This README.md file is now properly formatted and ready to be used in your GitHub repository. It provides a clear overview of your project, its features, usage instructions, and example output. The formatting is consistent and follows markdown best practices for readability on GitHub.
