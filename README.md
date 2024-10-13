@@ -1,4 +1,3 @@
-Certainly! Here's the full, corrected README.md content that you can directly copy and paste:
 
 ```markdown
 # truth-table-solver
