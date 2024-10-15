@@ -877,8 +877,6 @@ void show_ones(Dict *assignments, char **variables, char **variables_to_show) {
 
 }
 
-
-
 // Read the input file
 TokenList* read_file(const char *input_file) {
     FILE* file = fopen(input_file, "r");
@@ -935,15 +933,69 @@ int main(int argc, char* argv[]) {
     
     Dict *assignments = assignment(token_list, &index, variables);
     
-    char **show_var = malloc(sizeof(char *));
+    char **show_vars = malloc(sizeof(char *));
     char **show_ones_vars = malloc(sizeof(char *));
+    char **vars_to_show = NULL;
 
     // Initialize with NULL terminator
-    if (show_var != NULL) {
-        show_var[0] = NULL;
+    if (show_vars != NULL) {
+        show_vars[0] = NULL;
     }
     if (show_ones_vars != NULL) {
         show_ones_vars[0] = NULL;
+    }
+
+    size_t len_tok = token_list->size;
+    while (index < len_tok){
+        if(strcmp(token_list->tokens[index], "show") == 0 && strcmp(token_list->types[index], "keyword") == 0){
+            index++;
+            vars_to_show = malloc(sizeof(char *));
+            if(vars_to_show == NULL) {
+                fprintf(stderr, "Memory alloc failed");
+                exit(1);
+            }
+            vars_to_show[0] = NULL;  // Initialize with NULL terminator
+            while(index < len_tok && strcmp(token_list->tokens[index], ";") != 0){
+                if (strcmp(token_list->types[index], "identifier") == 0){
+                    vars_to_show = add(vars_to_show, token_list->tokens[index]);
+                }
+                index++;
+            }
+            index++; //skip the semicolon
+            show_vars = concatenate(show_vars, vars_to_show);
+            free_array(vars_to_show, len_array(vars_to_show));
+            vars_to_show = NULL;
+        }
+        else if(strcmp(token_list->tokens[index], "show_ones") == 0 && strcmp(token_list->types[index], "keyword") == 0){
+            index++;
+            vars_to_show = malloc(sizeof(char *));
+            if(vars_to_show == NULL) {
+                fprintf(stderr, "Memory alloc failed");
+                exit(1);
+            }
+            vars_to_show[0] = NULL;  // Initialize with NULL terminator
+            while(index < len_tok && strcmp(token_list->tokens[index], ";") != 0){
+                if (strcmp(token_list->types[index], "identifier") == 0){
+                    vars_to_show = add(vars_to_show, token_list->tokens[index]);
+                }
+                index++;
+            }
+            index++;
+            show_ones_vars = concatenate(show_ones_vars, vars_to_show);
+            free_array(vars_to_show, len_array(vars_to_show));
+            vars_to_show = NULL;
+        }
+        else {
+            index++;
+        }
+    }
+
+    // Display the results
+    if(show_vars && show_vars[0] != NULL){
+        show(assignments, variables, show_vars);  // Show full truth table
+    }
+    if(show_ones_vars && show_ones_vars[0] != NULL){
+        show_ones(assignments, variables, show_ones_vars);  // Show only when at least one is True
     }
 
     /* Prints*/
@@ -985,13 +1037,20 @@ int main(int argc, char* argv[]) {
     printf("}\n");
 
     // Free allocated memory
-    for (size_t i = 0; variables[i] != NULL; i++) {
-        free(variables[i]);
+    if (show_vars != NULL) {
+        free_array(show_vars, len_array(show_vars));
     }
-    free_array(variables, len_array(variables));
+
+    if (show_ones_vars != NULL) {
+        free_array(show_ones_vars, len_array(show_ones_vars));
+    }
+
+    if (variables != NULL) {
+        free_array(variables, len_array(variables));
+    }
+
     free_token_list(token_list);
     free_dict(assignments);
 
     return EXIT_SUCCESS; 
 }
-
